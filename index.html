@@ -1,0 +1,616 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soliq kalendari — Oktabr 2026</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f6fa;
+  color: #203047;
+}
+
+header {
+  background: #0756a5;
+  color: white;
+  padding: 25px 6%;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: 27px;
+}
+
+header p {
+  margin: 0;
+  color: #e0edff;
+}
+
+main {
+  max-width: 1050px;
+  margin: 28px auto;
+  padding: 0 16px;
+}
+
+.panel {
+  background: white;
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 18px #193b5d0d;
+}
+
+.month-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.month-title h2 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.year {
+  color: #718096;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.weekday {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: bold;
+  color: #6a7b90;
+}
+
+.day {
+  min-width: 0;
+  height: 75px;
+  border: 1px solid #e2e9f1;
+  border-radius: 9px;
+  background: white;
+  color: #203047;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+
+.day:hover {
+  background: #f0f6ff;
+  border-color: #8bb7e9;
+}
+
+.day.selected {
+  background: #eaf3ff;
+  border: 2px solid #0756a5;
+}
+
+.day.today {
+  font-weight: bold;
+}
+
+.day-number {
+  font-size: 15px;
+}
+
+.day-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #efb52d;
+  display: inline-block;
+}
+
+.day-dot.all-done {
+  background: #2da66c;
+}
+
+.day-dot.some-done {
+  background: #efb52d;
+}
+
+.day-dot.has-overdue {
+  background: #e44d4d;
+}
+
+.empty-cell {
+  height: 75px;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 17px;
+  margin-top: 20px;
+  color: #627187;
+  font-size: 13px;
+}
+
+.legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend .day-dot {
+  flex-shrink: 0;
+}
+
+.divider {
+  height: 1px;
+  background: #e7edf4;
+  margin: 24px 0;
+}
+
+.task-heading {
+  margin: 0 0 7px;
+  font-size: 21px;
+}
+
+.task-subtitle {
+  color: #738198;
+  font-size: 14px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 17px;
+  border: 1px solid #e2e9f1;
+  border-radius: 10px;
+  background: white;
+  transition: background 0.2s;
+}
+
+.task.completed {
+  background: #f0faf4;
+  border-color: #b8e5ca;
+}
+
+.check-button {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  border: 2px solid #b7c4d3;
+  border-radius: 50%;
+  background: white;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 14px;
+  margin-top: 1px;
+}
+
+.task.completed .check-button {
+  background: #23975b;
+  border-color: #23975b;
+  font-size: 13px;
+}
+
+.task-text {
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.task.completed .task-text {
+  color: #658171;
+}
+
+.task-status {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #8592a3;
+}
+
+.task.completed .task-status {
+  color: #218451;
+}
+
+.empty-message {
+  color: #7b899c;
+  padding: 18px 0;
+  line-height: 1.6;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  color: #617188;
+  font-size: 13px;
+}
+
+.progress-track {
+  height: 7px;
+  background: #e9eef4;
+  border-radius: 20px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 0%;
+  height: 100%;
+  background: #23975b;
+  transition: width 0.2s;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #7b899c;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 22px 18px;
+  }
+
+  header h1 {
+    font-size: 22px;
+  }
+
+  main {
+    padding: 0 10px;
+    margin-top: 16px;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+  .calendar {
+    gap: 4px;
+  }
+
+  .weekday {
+    font-size: 11px;
+    padding: 8px 0;
+  }
+
+  .day,
+  .empty-cell {
+    height: 57px;
+  }
+
+  .day-number {
+    font-size: 13px;
+  }
+
+  .day-dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .task {
+    padding: 13px 10px;
+    gap: 10px;
+  }
+
+  .task-text {
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Soliq kalendari</h1>
+  <p>Soliq majburiyatlarini kuzatish va bajarilgan ishlarni belgilash</p>
+</header>
+
+<main>
+
+  <section class="panel">
+    <div class="month-title">
+      <div>
+        <h2>Oktabr</h2>
+        <div class="year">2026-yil</div>
+      </div>
+      <div style="color:#0756a5;font-size:14px;font-weight:bold">
+        Oylik kalendar
+      </div>
+    </div>
+
+    <div class="calendar" id="calendar"></div>
+
+    <div class="legend">
+      <span><i class="day-dot"></i> Bajarilmagan ishlar bor</span>
+      <span><i class="day-dot all-done"></i> Barcha ishlar bajarilgan</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <h3 class="task-heading" id="selectedDate">
+      5-oktabr uchun majburiyatlar
+    </h3>
+
+    <div class="task-subtitle">
+      Ish bajarilgach, uning yonidagi aylanachani bosing.
+      Belgilaringiz shu brauzerda saqlanadi.
+    </div>
+
+    <div class="task-list" id="taskList"></div>
+
+    <div class="progress-row">
+      <span>Kunlik bajarilish holati</span>
+      <strong id="progressText">0 / 0</strong>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Soliq kalendari — o‘quv prototipi
+</footer>
+
+<script>
+const year = 2026;
+const month = 9; // Oktabr: JavaScriptda 9
+
+const obligations = {
+  5: [
+    "Norezidentlarga to‘langan ayrim daromadlar bo‘yicha foyda solig‘ini budjetga o‘tkazish"
+  ],
+
+  8: [
+    "Natura shaklida to‘langan daromadlar bo‘yicha JShDS va SHJBPH majburiy badallarini to‘lash"
+  ],
+
+  9: [
+    "Alkogol mahsulotlarini realizatsiya qilish huquqi uchun yig‘imni to‘lash"
+  ],
+
+  12: [
+    "Aksiz solig‘i hisob-kitobini taqdim etish va to‘lash",
+    "Mol-mulk solig‘i bo‘yicha joriy to‘lov",
+    "Qishloq xo‘jaligiga mo‘ljallanmagan yerlar uchun yer solig‘i bo‘yicha joriy to‘lov"
+  ],
+
+  15: [
+    "JShDS bo‘yicha ma’lumotlarni taqdim etish va ijtimoiy soliq hisobotini topshirish hamda to‘lash",
+    "Aylanmadan olinadigan soliq hisobotini topshirish va to‘lash",
+    "Ayrim YTT va o‘zini o‘zi band qilgan shaxslar daromadlari bo‘yicha soliq agentining hisoboti va aylanma solig‘i",
+    "IV chorak uchun foyda solig‘i bo‘yicha bo‘nak to‘lovlari haqidagi ma’lumotnomani taqdim etish"
+  ],
+
+  20: [
+    "QQS hisobotini topshirish va soliqni to‘lash",
+    "Dividendlar va foizlar bo‘yicha soliq hisoboti — agar sentabrda hisoblangan bo‘lsa",
+    "Norezidentlar daromadlaridan olinadigan soliq bo‘yicha soliq agentining hisoboti",
+    "Yer qa’ridan foydalanganlik uchun soliq hisob-kitobini taqdim etish va to‘lash",
+    "Suv resurslaridan foydalanganlik uchun bo‘nak to‘lovi — tegishli soliq to‘lovchilar uchun",
+    "III chorak uchun maxsus renta solig‘i hisoboti va to‘lovi",
+    "III chorak uchun foyda solig‘i hisoboti va to‘lovi",
+    "Elektron xizmat ko‘rsatuvchi xorijiy yuridik shaxslarning QQS hisoboti va to‘lovi"
+  ],
+
+  23: [
+    "Tegishli yirik soliq to‘lovchilar uchun foyda solig‘i bo‘yicha oylik bo‘nak to‘lovi"
+  ]
+};
+
+// Bajarilgan ishlarni brauzer xotirasida saqlash
+const STORAGE_KEY = "soliq-kalendari-oktabr-2026";
+
+function loadCompleted() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch (error) {
+    return {};
+  }
+}
+
+let completed = loadCompleted();
+let selectedDay = 5;
+
+function saveCompleted() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+  } catch (error) {
+    // Agar brauzer saqlashga ruxsat bermasa,
+    // kalendar joriy sahifa davomida ishlashda davom etadi.
+  }
+}
+
+function taskKey(day, index) {
+  return day + "-" + index;
+}
+
+function renderCalendar() {
+  const calendar = document.getElementById("calendar");
+  calendar.innerHTML = "";
+
+  const weekdays = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
+
+  weekdays.forEach(name => {
+    const el = document.createElement("div");
+    el.className = "weekday";
+    el.textContent = name;
+    calendar.appendChild(el);
+  });
+
+  const firstDay = new Date(year, month, 1);
+  const offset = (firstDay.getDay() + 6) % 7;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < offset; i++) {
+    const blank = document.createElement("div");
+    blank.className = "empty-cell";
+    calendar.appendChild(blank);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "day";
+
+    if (day === selectedDay) {
+      button.classList.add("selected");
+    }
+
+    const number = document.createElement("span");
+    number.className = "day-number";
+    number.textContent = day;
+    button.appendChild(number);
+
+    const dayTasks = obligations[day] || [];
+
+    if (dayTasks.length > 0) {
+      const dot = document.createElement("i");
+      dot.className = "day-dot";
+
+      const doneCount = dayTasks.filter((task, index) =>
+        completed[taskKey(day, index)]
+      ).length;
+
+      if (doneCount === dayTasks.length) {
+        dot.classList.add("all-done");
+      } else if (doneCount > 0) {
+        dot.classList.add("some-done");
+      }
+
+      button.appendChild(dot);
+    }
+
+    button.setAttribute("aria-label", day + "-oktabr");
+    button.addEventListener("click", () => {
+      selectedDay = day;
+      renderCalendar();
+      renderTasks();
+    });
+
+    calendar.appendChild(button);
+  }
+}
+
+function renderTasks() {
+  const list = document.getElementById("taskList");
+  const heading = document.getElementById("selectedDate");
+  const progressText = document.getElementById("progressText");
+  const progressFill = document.getElementById("progressFill");
+
+  heading.textContent = selectedDay + "-oktabr uchun majburiyatlar";
+  list.innerHTML = "";
+
+  const dayTasks = obligations[selectedDay] || [];
+  let doneCount = 0;
+
+  if (dayTasks.length === 0) {
+    const message = document.createElement("div");
+    message.className = "empty-message";
+    message.textContent =
+      "Bu sana uchun hozircha soliq majburiyati kiritilmagan. Boshqa sanani tanlang.";
+    list.appendChild(message);
+  }
+
+  dayTasks.forEach((task, index) => {
+    const key = taskKey(selectedDay, index);
+    const isDone = Boolean(completed[key]);
+
+    if (isDone) doneCount++;
+
+    const row = document.createElement("div");
+    row.className = "task" + (isDone ? " completed" : "");
+
+    const check = document.createElement("button");
+    check.type = "button";
+    check.className = "check-button";
+    check.textContent = isDone ? "✓" : "";
+    check.setAttribute(
+      "aria-label",
+      isDone ? "Bajarilgan belgini olib tashlash" : "Ish bajarildi deb belgilash"
+    );
+
+    check.addEventListener("click", () => {
+      if (completed[key]) {
+        delete completed[key];
+      } else {
+        completed[key] = true;
+      }
+
+      saveCompleted();
+      renderCalendar();
+      renderTasks();
+    });
+
+    const content = document.createElement("div");
+    content.style.flex = "1";
+
+    const text = document.createElement("div");
+    text.className = "task-text";
+    text.textContent = task;
+
+    const status = document.createElement("small");
+    status.className = "task-status";
+    status.textContent = isDone ? "✓ Bajarildi" : "Bajarilishi kutilmoqda";
+
+    content.appendChild(text);
+    content.appendChild(status);
+
+    row.appendChild(check);
+    row.appendChild(content);
+    list.appendChild(row);
+  });
+
+  progressText.textContent = doneCount + " / " + dayTasks.length;
+
+  const percentage = dayTasks.length
+    ? (doneCount / dayTasks.length) * 100
+    : 0;
+
+  progressFill.style.width = percentage + "%";
+}
+
+renderCalendar();
+renderTasks();
+</script>
+
+</body>
+</html>
